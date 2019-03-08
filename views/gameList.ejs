@@ -6,8 +6,8 @@
 		<ol>
 			<% gameList.forEach(function(item, index, array) { %>
 			<li>
-				<a href=<%= item.href %>>
-					<% item.name %>
+				<a href="<%=item.href%>">
+					<%= item.name %>
 				</a>
 			</li>
 			<% }) %>
