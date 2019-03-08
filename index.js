@@ -9,6 +9,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+gameList = [{"nameGame" : "game1", "highscore" : 0},{"nameGame" : "game2", "highscore" : 1}]
+
 app.get('/', function(req, res){
 	res.sendFile('./HTML/gameSelection.html');
 })
