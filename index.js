@@ -19,5 +19,9 @@ app.get('/GameSelection', function(req, res){
 	res.render('gameList', {gameList: gameList});
 })
 
+app.get('/SpaceGame', function(req, res){
+	res.render('spaceGame', {user: user});
+})
+
 
 app.listen(port, () => console.log('version alpha'))
