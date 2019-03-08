@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+
 app.get('/GameSelection', function(req, res){
 	res.render('gameList', {gameList: gameList});
 })

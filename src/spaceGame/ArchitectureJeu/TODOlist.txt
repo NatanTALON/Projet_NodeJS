@@ -1,0 +1,7 @@
+- GameOver -> RAZ (appuyer sur espace pour recommencer)
+- trajectoire différente pour les ennemis -> poser une fonction trajectoire au constucteur enemy
+- tableau de scores
+- Boss de fin
+- aptitudes supplémentaire 
+- exploser plusieurs fois lors de la mort
+
