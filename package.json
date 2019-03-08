@@ -1,0 +1,24 @@
+{
+  "name": "projet_nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NatanTALON/Projet_NodeJS.git"
+  },
+  "author": "Natan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NatanTALON/Projet_NodeJS/issues"
+  },
+  "homepage": "https://github.com/NatanTALON/Projet_NodeJS#readme",
+  "devDependencies": {
+    "express": "^4.16.4",
+    "jest": "^24.3.1",
+    "jsdoc": "^3.5.5"
+  }
+}
