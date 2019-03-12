@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<script>
+			function getScore() {
+				score = Math.floor(Math.random() * 1000);
+				alert(`Vous obtenez : ${score} !`);
+				document.getElementById('score').value = score;
+				document.getElementById('form').submit();
+			}
+		</script>
+	</head>
+	<body>
+		<form action="/Random" methode="post" id="form">
+			<div>Tentez votre chance <%= user.name %> !</div>
+			<div>Votre meilleur score est de : <%= user.highscore %></div>
+			<div>
+				<input type="hidden" name="score" id="score" value=13 />
+				<button type='submit'>Tirer</button>
+			</div>
+		</form>
+	</body>
+</html>

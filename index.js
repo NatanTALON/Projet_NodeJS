@@ -9,7 +9,10 @@ const gameList = [
 	{name: "Random", href: `http://localhost:${port}/Random`, highscore: 0}
 ];
 
-const user = "admin";		//a changer
+var user = {
+	name: "admin",
+	highscore: 0
+};		//a changer
 
 //select view engine
 app.set('view engine', 'ejs')
@@ -31,6 +34,16 @@ app.get('/SpaceGame', function(req, res){		//ne marche pas => trouve pas les sou
 
 app.get('/Random', function(req, res){			//a faire
 	res.render('random', {user: user});
+})
+
+app.post('/Random', function(req, res){
+	/*score = req.body.score;
+	console.log('coucou');
+	if(user.highscore < score) {
+		user.highscore = score;
+	}*/
+	user.highscore = 7;
+	res.render('gameList', {user: user});
 })
 
 
