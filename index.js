@@ -30,6 +30,19 @@ app.use('/public', express.static(__dirname + '/public'));
 //select view engine
 app.set('view engine', 'ejs')
 
+
+///////////////dataBase Connection ////////////
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+/////////////////////////////////////
+
 var gameList = [
 	{name: "Space Game", href: `/SpaceGame`, highscore: 0},
 	{name: "Random", href: `/Random`, highscore: 0}
@@ -39,6 +52,7 @@ var user = {
 	name: "admin",
 	highscore: 0
 };		//a changer
+
 
 
 
@@ -54,7 +68,16 @@ app.post('/Login', function(req, res){
 })
 
 
+/////////////subscription//////////
+app.get('/Subscription', function(req, res){
+	res.render('subscription', {user: user});
+})
+
+
 ///////////// game selection //////////////
+app.get('/GameSelection', function(req, res){
+	res.render('gameList', {gameList: gameList});
+})
 
 app.get('/GameSelection', function(req, res){
 	res.render('gameList', {gameList: gameList});
