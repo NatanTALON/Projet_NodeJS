@@ -1,12 +1,28 @@
+//require needed middlewares
 const bodyParser = require('body-parser');
 const express = require('express');
 const ejs = require('ejs');
+
+//configure app to use express on port 3000
 const app = express();
 const port = 3000;
 
+//tell app to use imported middlewares
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(express.cookieParser());
+
+//creating middleware for session handling using cookies
+app.use(function (req, res, next) {
+	var cookie = req.cookies.login;
+	if (cookie === undefined) {
+		res.redirect('/Login');
+	}
+	next();
+});
+
 app.use('/public', express.static(__dirname + '/public'));
+
 
 var gameList = [
 	{name: "Space Game", href: `/SpaceGame`, highscore: 0},
