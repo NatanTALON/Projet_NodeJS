@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NatanTALON/Projet_NodeJS#readme",
   "devDependencies": {
+    "cookie-parser": "^1.4.4",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "jest": "^24.3.1",
