@@ -31,20 +31,6 @@ app.use('/public', express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
 
 
-///////////////dataBase Connection ////////////
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/test?retryWrites=true";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("ProjetNode").collection("Users");
-  collection.createIndex( { "login":"String" }, function(err, result) {
-   console.log(result);
-});
-  client.close();
-});
-
-
-/////////////////////////////////////
 
 var gameList = [
 	{name: "Space Game", href: `/SpaceGame`, highscore: 0},
@@ -57,7 +43,10 @@ var user = {
 };		//a changer
 
 
-
+//////////////database connection////
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
+/////////////////////////////////////
 
 ////////////// login ////////////////
 app.get('/Login', function(req, res){
