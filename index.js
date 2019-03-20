@@ -48,6 +48,7 @@ client.connect(err => {
 
 /////////////////////////////////////
 
+
 var gameList = [
 	{name: "Space Game", href: `/SpaceGame`, highscore: 0},
 	{name: "Random", href: `/Random`, highscore: 0}
@@ -59,7 +60,10 @@ var user = {
 };		//a changer
 
 
-
+//////////////database connection////
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
+/////////////////////////////////////
 
 ////////////// login ////////////////
 app.get('/Login', function(req, res){
