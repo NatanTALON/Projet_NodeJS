@@ -3,6 +3,16 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+require('./models/User');
+require('./models/Game');
+
+//////////////database connection////
+mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
+/////////////////////////////////////
+
+const User = mongoose.model('User');
+const Game = mongoose.model('Game');
 
 //configure app to use express on port 3000
 const app = express();
@@ -43,10 +53,7 @@ var user = {
 };		//a changer
 
 
-//////////////database connection////
-const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
-/////////////////////////////////////
+
 
 ////////////// login ////////////////
 app.get('/Login', function(req, res){
@@ -56,14 +63,33 @@ app.get('/Login', function(req, res){
 app.post('/Login', function(req, res){
 	//check if login and password are ok
 	res.cookie('login', req.body.login, { maxAge: 60*60*24*1000 });
+	/*User.findOne({
+		login : req.body.login
+	}, function(err,user){
+		if(!user){
+			
+		}
+	});*/
 	res.redirect('/GameSelection');
 })
 
 
 /////////////subscription//////////
 app.get('/Subscription', function(req, res){
-	res.render('subscription', {user: user});
+	res.render('subscription');
 })
+
+app.post('/Subscription', function(req,res){
+	User.findOne({
+		login : req.body.login
+	}, function(err,user){
+		if(!user){
+			//if(req.body.login.isEmpty())
+			const new_user = new User({login : req.body.login, psw : req.body.psw, highscore_list : []});
+			new_user.save();
+		}
+	})
+});
 
 
 ///////////// game selection //////////////
@@ -98,3 +124,5 @@ app.get('/SpaceGame', function(req, res){		//ne marche pas => trouve pas les sou
 
 
 app.listen(port, () => console.log('version alpha'))
+
+module.exports = app;
