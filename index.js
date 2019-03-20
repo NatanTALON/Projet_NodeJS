@@ -68,14 +68,18 @@ app.post('/Login', function(req, res){
 	console.log(req.body.login);
 	console.log(req.body.psw);
 	res.cookie('login', req.body.login, { maxAge: 60*60*24*1000 });
-	/*User.findOne({
-		login : req.body.login
+	User.findOne({
+		login : req.body.login,
+		psw : req.body.psw
 	}, function(err,user){
 		if(!user){
-			
+			res.render('login');
+			console.log("login doesn't exist or wrong password");
 		}
-	});*/
-	res.redirect('/GameSelection');
+		else{
+			res.redirect('/GameSelection');
+		}
+	});
 })
 
 
