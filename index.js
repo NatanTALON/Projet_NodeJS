@@ -1,3 +1,8 @@
+//functions used to check if user is valid
+var isRegistered = function(cookie) {
+	return cookie === user.name;
+};
+
 //require needed middlewares
 const bodyParser = require('body-parser');
 const express = require('express');
@@ -16,7 +21,7 @@ app.use(cookieParser());
 //creating middleware for session handling using cookies
 app.use(function (req, res, next) {
 	var cookie = req.cookies.login;
-	if (req.url !== '/Login' && cookie === undefined) {
+	if ((req.url !== '/Login' && cookie === undefined) || !isRegistered(cookie)) {
 		res.redirect('/Login');
 	} else {
 		next();
@@ -32,14 +37,14 @@ app.set('view engine', 'ejs')
 
 
 ///////////////dataBase Connection ////////////
-const MongoClient = require('mongodb').MongoClient;
+/*const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/test?retryWrites=true";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
   client.close();
-});
+});*/
 
 /////////////////////////////////////
 
