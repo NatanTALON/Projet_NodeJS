@@ -4,6 +4,7 @@ const express = require('express');
 const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const expressValidator = require('express-validator');
 require('./models/User');
 require('./models/Game');
 
@@ -21,7 +22,9 @@ const port = 3000;
 //tell app to use imported middlewares
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(bodyParser.json({ type: 'application/*+json' }));
 app.use(cookieParser());
+app.use(expressValidator())
 
 //creating middleware for session handling using cookies
 app.use(function (req, res, next) {
@@ -62,6 +65,8 @@ app.get('/Login', function(req, res){
 
 app.post('/Login', function(req, res){
 	//check if login and password are ok
+	console.log(req.body.login);
+	console.log(req.body.psw);
 	res.cookie('login', req.body.login, { maxAge: 60*60*24*1000 });
 	/*User.findOne({
 		login : req.body.login
@@ -80,13 +85,23 @@ app.get('/Subscription', function(req, res){
 })
 
 app.post('/Subscription', function(req,res){
+	req.checkBody('login', 'Please insert a login.').notEmpty();
+   req.checkBody('psw', 'Please insert a password.').notEmpty();
 	User.findOne({
 		login : req.body.login
 	}, function(err,user){
 		if(!user){
-			//if(req.body.login.isEmpty())
+			console.log(req.body.login, req.body.psw);
 			const new_user = new User({login : req.body.login, psw : req.body.psw, highscore_list : []});
-			new_user.save();
+			new_user.save(function (err) {
+  				if (err) { throw err; }
+ 					 console.log('err');
+			});
+			res.redirect('/GameSelection');
+		}
+		else{
+			res.render('subscription');
+			console.log("pseudo déjà utilisé");
 		}
 	})
 });
