@@ -5,6 +5,7 @@ const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
+const bcrypt = require('bcrypt');
 require('./models/User');
 require('./models/Game');
 
@@ -69,15 +70,22 @@ app.post('/Login', function(req, res){
 	console.log(req.body.psw);
 	res.cookie('login', req.body.login, { maxAge: 60*60*24*1000 });
 	User.findOne({
-		login : req.body.login,
-		psw : req.body.psw
+		login : req.body.login
 	}, function(err,user){
 		if(!user){
 			res.render('login');
-			console.log("login doesn't exist or wrong password");
+			console.log("login doesn't exist");
 		}
 		else{
-			res.redirect('/GameSelection');
+			bcrypt.compare(req.body.psw , user.psw, function(err, checked){
+			if(checked){
+				res.redirect('/GameSelection');
+			}
+			else{
+				res.render('login');
+				console.log("wrong password");
+				}
+			});
 		}
 	});
 })
@@ -97,9 +105,12 @@ app.post('/Subscription', function(req,res){
 		if(!user){
 			console.log(req.body.login, req.body.psw);
 			const new_user = new User({login : req.body.login, psw : req.body.psw, highscore_list : []});
-			new_user.save(function (err) {
-  				if (err) { throw err; }
- 					 console.log('err');
+			bcrypt.hash(new_user.psw, 10, function(err,hash){
+				new_user.psw = hash;
+				new_user.save(function (err) {
+	  				if (err) { throw err; }
+	 					 console.log('err');
+				});
 			});
 			res.redirect('/GameSelection');
 		}
