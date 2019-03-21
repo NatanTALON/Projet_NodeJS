@@ -1,24 +1,24 @@
 <html>
 	<head>
 		<title>Game Selection</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	</head>
 	<body>
-		<div>
-			Bienvenu <%= login %> !
-			<form action="/logout" method="post">
-				<input type="submit" value="Déconnexion" />
+		<div class="ml-3 mt-3">
+			<h1 class="h3 d-inline mr-4 align-middle">Bienvenu <%= login %> !</h1>
+			<form action="/logout" method="post" class="d-inline">
+				<input type="submit" value="Déconnexion" class="btn btn-outline-secondary" />
 			</form>
 		</div>
-		<div>
-			<ol>
+		<div class="text-center mt-4">
+			<h1 class="h2">Sélectionnez un jeu :</h1>
+		</div>
+		<div class="text-center">
+			<div class="mt-3 btn-group-vertical">
 				<% gameList.forEach(function(item, index, array) { %>
-				<li>
-					<a href="<%=item.href%>">
-						<%= item.name %>
-					</a>
-				</li>
+				<a href="<%=item.href%>" class="btn btn-secondary btn-lg"> <%= item.name %> </a>
 				<% }) %>
-			</ol>
+			</div>
 		</div>
 	</body>
 </html>
