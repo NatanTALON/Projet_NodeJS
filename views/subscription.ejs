@@ -5,7 +5,7 @@
 		<title>Subscription</title>
     </head>
     <body>
-    	<% if(badauth) { %>
+    	<% if(loginused) { %>
     	<div> Votre identifiant est déjà utilisé. </div>
     	<% } %>
     	<form action="/Subscription" method="post">

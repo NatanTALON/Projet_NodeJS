@@ -17,12 +17,15 @@
   },
   "homepage": "https://github.com/NatanTALON/Projet_NodeJS#readme",
   "devDependencies": {
+    "bcrypt": "^3.0.5",
     "cookie-parser": "^1.4.4",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "jest": "^24.3.1",
-    "jsdoc": "^3.5.5"
+    "express-validator": "^5.3.1",
+    "jest": "^24.5.0",
+    "jsdoc": "^3.5.5",
+    "mongoose": "^5.4.19"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

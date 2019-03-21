@@ -3,15 +3,22 @@
 		<title>Game Selection</title>
 	</head>
 	<body>
-		<ol>
-			<% gameList.forEach(function(item, index, array) { %>
-			<li>
-				<a href="<%=item.href%>">
-					<%= item.name %>
-				</a>
-			</li>
-			<% }) %>
-		</ol>
-		<a href="/Login">Logout</a>
+		<div>
+			Bienvenu <% login %> !
+			<form action="/logout" method="post">
+				<input type="submit" value="Déconnexion" />
+			</form>
+		</div>
+		<div>
+			<ol>
+				<% gameList.forEach(function(item, index, array) { %>
+				<li>
+					<a href="<%=item.href%>">
+						<%= item.name %>
+					</a>
+				</li>
+				<% }) %>
+			</ol>
+		</div>
 	</body>
 </html>

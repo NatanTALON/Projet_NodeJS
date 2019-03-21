@@ -64,11 +64,6 @@ var gameList = [
 	{name: "Random", href: '/secure/Random', highscore: 0}
 ];
 
-var user = {
-	name: "admin",
-	highscore: 0
-};		//a changer
-
 
 
 ////////////// login ////////////////
@@ -113,13 +108,14 @@ app.post('/Subscription', function(req,res){
 		login : req.body.login
 	}, function(err,user) {
 		if(!user){
-			console.log(req.body.login, req.body.psw);
 			const new_user = new User({login : req.body.login, psw : req.body.psw, highscore_list : []});
 			bcrypt.hash(new_user.psw, 10, function(err,hash){
 				new_user.psw = hash;
 				new_user.save(function (err) {
-	  				if (err) { throw err; }
-	 					 console.log('err');
+	  				if (err) {
+	  					throw err;
+	 					console.log('err');
+	 				}
 				});
 			});
 			req.session.user = user;
@@ -132,9 +128,16 @@ app.post('/Subscription', function(req,res){
 });
 
 
+//////////// logout //////////////////////
+app.post('/logout', function(req,res) {
+	res.clearCookie('connect.sid');
+	res.redirect('/Login');
+});
+
+
 ///////////// game selection //////////////
 app.get('/secure/GameSelection', function(req, res){
-	res.render('gameList', {gameList: gameList});
+	res.render('gameList', {gameList: gameList, login: req.session.user.login});
 });
 
 
