@@ -3,13 +3,13 @@
 var player = {
     init : function(){
         this.img = new Image();
-        this.img.src = "../src/spaceGame/ArchitectureJeu/assets/Ship/Spritesheet_64x29.png";
+        this.img.src = "./assets/Ship/Spritesheet_64x29.png";
         this.cpt = 0;
         this.cptExplosion =  10;//10 images
         this.imgExplosion = new Image();
         this.imgExplosionHeight = 128;
         this.imgExplosionWidth = 128;
-        this.imgExplosion.src = "../src/spaceGame/ArchitectureJeu/assets/Explosion/explosionSpritesheet_1280x128.png";
+        this.imgExplosion.src = "./assets/Explosion/explosionSpritesheet_1280x128.png";
         this.projectileSet = new ProjectileSet();
     },
     x : 20,
