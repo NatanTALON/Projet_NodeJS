@@ -79,15 +79,17 @@ app.post('/Login', function(req, res){
 	}, function(err,user){
 		if(!user){
 			res.render('login', {badauth: true});
-		}
-		else{
+		} else {
 			bcrypt.compare(req.body.psw , user.psw, function(err, checked){
-			if(checked){
-				req.session.user = user;
-				res.redirect('/secure/GameSelection');
-			}
-			else{
-				res.render('login', {badauth: true});
+				if(checked){
+					req.session.user = user;
+					if(req.body.login != "admin"){
+						res.redirect('/secure/GameSelection');
+					} else {
+						res.redirect('/secure/Admin');
+					}
+				} else {
+					res.render('login', {badauth: true});
 				}
 			});
 		}
@@ -108,7 +110,7 @@ app.post('/Subscription', function(req,res){
 		login : req.body.login
 	}, function(err,user) {
 		if(!user){
-			const new_user = new User({login : req.body.login, psw : req.body.psw, highscore_list : []});
+			const new_user = new User({login : req.body.login, psw : req.body.psw, admin : false, highscore_list : []});
 			bcrypt.hash(new_user.psw, 10, function(err,hash){
 				new_user.psw = hash;
 				new_user.save(function (err) {
@@ -128,6 +130,7 @@ app.post('/Subscription', function(req,res){
 });
 
 
+
 //////////// logout //////////////////////
 app.post('/logout', function(req,res) {
 	res.clearCookie('connect.sid');
@@ -139,6 +142,13 @@ app.post('/logout', function(req,res) {
 app.get('/secure/GameSelection', function(req, res){
 	res.render('gameList', {gameList: gameList, login: req.session.user.login});
 });
+
+
+/////////////admin users gestion //////////
+app.get('/secure/Admin', function(req, res){
+	res.render('admin');
+})
+
 
 
 //////////// game random ///////////////
