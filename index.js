@@ -116,7 +116,6 @@ app.post('/Subscription', function(req,res){
 				new_user.save(function (err) {
 	  				if (err) {
 	  					throw err;
-	 					console.log('err');
 	 				}
 				});
 			});
@@ -150,28 +149,29 @@ app.get('/secure/Admin', function(req, res){
 })
 
 
+//////////// game space shooter N°0///////////
+app.get('/secure/SpaceGame', function(req, res){		//ne marche pas => trouve pas les sources
+	res.render('spaceGame', {user: req.session.user});
+});
 
-//////////// game random ///////////////
+
+//////////// game random N°1 ///////////////
 app.get('/secure/Random', function(req, res){
-	res.render('random', {user: req.session.user});
+	res.render('random', {login: req.session.user.login, highscore: req.session.user.highscore_list[1]});
 });
 
 app.post('/secure/Random', function(req, res){
 	score = req.body.score;
 	if(req.session.user.highscore < score) {
-		req.session.user.highscore = score;
+		req.session.user.highscore_list[1] = score;
 	}
-	res.render('random', {user: req.session.user});
+	res.render('random', {login: req.session.user.login, highscore: req.session.user.highscore_list[1]});
 });
 
 
-//////////// game space shooter ///////////
-app.get('/secure/SpaceGame', function(req, res){		//ne marche pas => trouve pas les sources
-	res.render('spaceGame', {user: req.session.user});
-})
 
 
-
+///////////// launch app //////////////////
 app.listen(port, () => console.log('version alpha'))
 
 module.exports = app;
