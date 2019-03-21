@@ -79,7 +79,12 @@ app.post('/Login', function(req, res){
 		else{
 			bcrypt.compare(req.body.psw , user.psw, function(err, checked){
 			if(checked){
-				res.redirect('/GameSelection');
+				if(req.body.login != "admin"){
+					res.redirect('/GameSelection');
+				}
+			else{
+					res.redirect('/Admin');
+			}
 			}
 			else{
 				res.render('login');
@@ -122,14 +127,19 @@ app.post('/Subscription', function(req,res){
 });
 
 
+/////////////admin users gestion //////////
+app.get('/Admin', function(req, res){
+	res.render('admin');
+})
+
+
+
 ///////////// game selection //////////////
 app.get('/GameSelection', function(req, res){
 	res.render('gameList', {gameList: gameList});
 })
 
-app.get('/GameSelection', function(req, res){
-	res.render('gameList', {gameList: gameList});
-})
+
 
 
 //////////// game random ///////////////
