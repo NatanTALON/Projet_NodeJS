@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 require('./models/User');
 require('./models/Game');
 
-//////////////database connection////
+
 mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
 /////////////////////////////////////
 
@@ -155,8 +155,26 @@ app.get('/secure/GameSelection', function(req, res){
 
 /////////////admin users gestion //////////
 app.get('/secure/Admin', function(req, res){
-	res.render('admin');
+	User.find().then((users) =>{
+		//console.log(users);
+		res.render('admin', {users});
+	});
 })
+
+app.post('/secure/Admin',function(req,res){
+	req.checkBody('login', 'Please insert a login.').notEmpty();
+	User.findOne({
+		login : req.body.login
+	}, function(err,user) {
+		if(!user){
+			res.redirect('/secure/Admin');
+		}
+		else{
+			user.remove();
+			res.redirect('/secure/Admin')
+		}
+	})
+});
 
 
 //////////// game space shooter N°0///////////

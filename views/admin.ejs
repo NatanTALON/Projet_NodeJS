@@ -5,16 +5,23 @@
 		<title>Admin</title>
     </head>
     <body>
-    	<form action="/Admin" method="post">
+    	<form action="" method="post">
 			<div>
 				<input type="text" name="login" placeholder="login to the user to delete">
 			</div>
 			<div>
-				<input type="password" name="psw" placeholder="admin password">
-			</div>
-			<div>
 				<input type="submit" value="Delete">
 			</div>
+			<div class="text-center">
+		</div>
 	</form>
+	<form action="/logout" method="post" class="d-inline">
+				<input type="submit" value="Déconnexion" class="btn btn-outline-secondary" />
+			</form>
+		<div class="mt-3 btn-group-vertical">
+				<% users.forEach(function(item, index, array) { %>
+				<div"> <%= item.login %> </div>
+				<% }) %>
+			</div>
     </head>
 </html>
