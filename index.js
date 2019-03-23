@@ -9,8 +9,7 @@ const bcrypt = require('bcrypt');
 require('./models/User');
 require('./models/Game');
 
-/**
-*/
+
 mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
 /////////////////////////////////////
 
