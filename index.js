@@ -10,8 +10,8 @@ require('./models/User');
 require('./models/Game');
 
 
+////////////////// connection to database /////////////////////////
 mongoose.connect('mongodb+srv://RC:B4IgWhoqchuiTm3w@cluster0-uuws7.mongodb.net/projet_NodeJs?retryWrites=true',{useNewUrlParser: true});
-/////////////////////////////////////
 
 const User = mongoose.model('User');
 const Game = mongoose.model('Game');
@@ -132,7 +132,7 @@ app.post('/Subscription', function(req,res){
 			req.session.user = user;
 			res.redirect('/secure/GameSelection');
 		}
-		else{
+		else {
 			res.render('subscription', {loginused: true});
 		}
 	})
@@ -155,13 +155,12 @@ app.get('/secure/GameSelection', function(req, res){
 
 /////////////admin users gestion //////////
 app.get('/secure/Admin', function(req, res){
-	User.find().then((users) =>{
-		//console.log(users);
+	User.find().then((users) => {
 		res.render('admin', {users});
 	});
 })
 
-app.post('/secure/Admin',function(req,res){
+app.post('/secure/Admin',function(req,res) {
 	req.checkBody('login', 'Please insert a login.').notEmpty();
 	User.findOne({
 		login : req.body.login
@@ -169,7 +168,7 @@ app.post('/secure/Admin',function(req,res){
 		if(!user){
 			res.redirect('/secure/Admin');
 		}
-		else{
+		else {
 			user.remove();
 			res.redirect('/secure/Admin')
 		}
@@ -185,15 +184,33 @@ app.get('/secure/SpaceGame', function(req, res){		//ne marche pas => trouve pas 
 
 //////////// game random N°1 ///////////////
 app.get('/secure/Random', function(req, res){
-	res.render('random', {login: req.session.user.login, highscore: req.session.user.highscore_list[1]});
+	Game.findOne({name: "Random"}, (game) => {
+		res.render('random', {
+			login: req.session.user.login,
+			playerscore: req.session.user.highscore_list.randomGame,
+			highscores: []/*game.scores.sort(function(p1,p2) {
+					if(p1.score < p2.score) {
+						return -1;
+					} else if (p1.score > p2.score) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}).slice(4);*/
+		});
+	});
 });
 
 app.post('/secure/Random', function(req, res){
 	score = req.body.score;
-	if(req.session.user.highscore < score) {
-		req.session.user.highscore_list[1] = score;
+	if(req.session.user.highscore_list.randomGame < score) {
+		req.session.user.highscore_list.randomGame = score;
+		User.findOneAndUpdate({login: req.session.user.login}, req.session.user, function(user) {
+			res.redirect('/secure/Random');
+		});
+	} else {
+		res.redirect('/secure/Random');
 	}
-	res.render('random', {login: req.session.user.login, highscore: req.session.user.highscore_list[1]});
 });
 
 

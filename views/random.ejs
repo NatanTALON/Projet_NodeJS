@@ -20,12 +20,28 @@
 				<div class="text-center mt-5">
     				<h1 class="h3 font-weight-normal">Tentez votre chance <%= login %> !</h1>
     			</div>
-				<div class="text-center mb-2">Votre meilleur score est de : <%= highscore %></div>
+				<div class="text-center mb-2">Votre meilleur score est de : <%= playerscore %></div>
 				<div class="text-center">
 					<input type="hidden" name="score" id="score" />
 					<button class="btn btn-success btn-lg" onclick="getScore()">Tirer</button>
 				</div>
 			</form>
+		</div>
+		<div class="w-50 mx-auto mt-5">
+			<table>
+				<thead>
+					<tr>
+						<th colspan="2">Les meilleurs joueurs !</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% highscores.forEach( function(item, index, array) { %>
+					<tr>
+						<td><%= item.Player %></td><td><%= item.score %></td>
+					</tr>
+					<% }) %>
+				</tbody>
+			</table
 		</div>
 	</body>
 </html>
