@@ -56,6 +56,16 @@ app.use((req, res, next) => {
 	}
 });
 
+//middleware to check if user is admin
+app.use((req, res, next) => {
+	var url = req.url.split('/');
+	if (url.length >= 3 && url[2] === 'Admin' && !req.session.user.admin) {
+		res.redirect('/secure/GameSelection');
+	} else {
+		next();
+	}
+});
+
 
 
 /////////////// temporaire ///////////////////////
