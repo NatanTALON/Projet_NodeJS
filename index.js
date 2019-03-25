@@ -120,7 +120,7 @@ app.post('/Subscription', function(req,res){
 		login : req.body.login
 	}, function(err,user) {
 		if(!user){
-			const new_user = new User({login : req.body.login, psw : req.body.psw, admin : false, highscore_list : []});
+			const new_user = new User({login : req.body.login, psw : req.body.psw, admin : false, highscore_list : {spaceGame : 0, randomGame :0}});
 			bcrypt.hash(new_user.psw, 10, function(err,hash){
 				new_user.psw = hash;
 				new_user.save(function (err) {
