@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 
 const game = new mongoose.Schema({
 	name : String,
-	highscore_author : String,
-	highscore : Number,
+	scores : [{Player :String, score : Number}],
 });
 
 module.exports = mongoose.model('Game', game);
