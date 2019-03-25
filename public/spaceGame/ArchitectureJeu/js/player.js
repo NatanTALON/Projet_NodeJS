@@ -1,7 +1,7 @@
 /////////////////////////////////
 // Hero Player
 var player = {
-    init : function(){
+    init : function(callback){
         this.img = new Image();
         this.img.src = "./assets/Ship/Spritesheet_64x29.png";
         this.cpt = 0;
@@ -11,6 +11,7 @@ var player = {
         this.imgExplosionWidth = 128;
         this.imgExplosion.src = "./assets/Explosion/explosionSpritesheet_1280x128.png";
         this.projectileSet = new ProjectileSet();
+        this.img.onload = callback();
     },
     x : 20,
 	 xSpeed : 30,

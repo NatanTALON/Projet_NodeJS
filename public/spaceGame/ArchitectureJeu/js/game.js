@@ -206,15 +206,14 @@ function init() {
     conScore.font = 'bold 12pt Courier';
     divArena.appendChild(canScore);
 
- 
-    player.init();
-    enemies.init();
+ 	window.addEventListener("keydown", keyDownHandler, false);
+	window.addEventListener("keyup", keyUpHandler, false);
+	
+    player.init(() => {
+        enemies.init();
     
-window.addEventListener("keydown", keyDownHandler, false);
-window.addEventListener("keyup", keyUpHandler, false);
-    
-    animFrame( recursiveAnim );
-    
+    	animFrame( recursiveAnim );
+    });
 }
 
 window.addEventListener("load", init, false);
