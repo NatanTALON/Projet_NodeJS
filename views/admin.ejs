@@ -3,25 +3,32 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Admin</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body>
-    	<form action="" method="post">
-			<div>
-				<input type="text" name="login" placeholder="login to the user to delete">
-			</div>
-			<div>
-				<input type="submit" value="Delete">
-			</div>
-			<div class="text-center">
-		</div>
-	</form>
-	<form action="/logout" method="post" class="d-inline">
+    	<div class="ml-3 mt-3">
+    		<form action="/logout" method="post" class="d-inline">
 				<input type="submit" value="Déconnexion" class="btn btn-outline-secondary" />
 			</form>
-		<div class="mt-3 btn-group-vertical">
-				<% users.forEach(function(item, index, array) { %>
-				<div"> <%= item.login %> </div>
-				<% }) %>
-			</div>
-    </head>
+    	</div>
+    	<div class="w-25 mt-4 ml-5">
+    		<form action="" method="post">
+				<div>
+					<input type="text" name="login" placeholder="Nom de l'utilisateur à supprimer" class="form-control">
+				</div>
+				<div>
+					<input type="submit" value="Delete" class="btn btn-danger mt-2">
+				</div>
+			</form>
+		</div>
+		<div class="mt-5 ml-4 container">
+			<div class="row"><div class="col-4">
+				<ul class="list-group">
+					<% users.forEach(function(item, index, array) { %>
+					<li class="list-group-item"> <%= item.login %> </li>
+					<% }) %>
+				</ul>
+			</div></div>
+		</div>
+    </body>
 </html>

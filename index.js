@@ -184,36 +184,49 @@ app.get('/secure/SpaceGame', function(req, res){		//ne marche pas => trouve pas 
 
 //////////// game random N°1 ///////////////
 app.get('/secure/Random', function(req, res){
-	Game.findOne({name: "Random"}, (game) => {
-		console.log(game);
+	Game.findOne({name: "Random"}, function(err,game) {
 		res.render('random', {
 			login: req.session.user.login,
 			playerscore: req.session.user.highscore_list.randomGame,
-			highscores: game.scores.sort(function(p1,p2) {
-					if(p1.score < p2.score) {
-						return -1;
-					} else if (p1.score > p2.score) {
-						return 1;
-					} else {
-						return 0;
-					}
-				}).slice(4)
+			highscores: game.scores
 		});
 	});
 });
 
 app.post('/secure/Random', function(req, res){
-	score = req.body.score;
+	var score = req.body.score;
 	if(req.session.user.highscore_list.randomGame < score) {
 		req.session.user.highscore_list.randomGame = score;
-		User.findOne({login: req.session.user.login}, req.session.user, function(user) {
-			Game.findOne({name: "Random"}, (game) => {
+		User.findOne({login: req.session.user.login}, function(err,user) {
+			user.highscore_list.randomGame = score;
+			user.save();
+			Game.findOne({name: "Random"}, function(err,game) {
 				let i = game.scores.findIndex((elt) => elt.Player === req.session.user.login);
 				if (i !== -1) {
 					game.scores[i] = {Player: req.session.user.login, score: score};
-				} else {
+				} else if (game.scores.length < 5) {
 					game.scores.push({Player: req.session.user.login, score: score});
+				} else {
+					let j = 3;
+					while (j > 0 && game.scores[j].score < score) {
+						game.scores[j+1] = game.scores[j];
+						j -= 1;
+					}
+					if (j === 3 && game.scores[4] < score) {
+						game.scores[4] = {Player: req.session.user.login, score: score};
+					} else if (j < 3) {
+						game.score[j+1] = {Player: req.session.user.login, score: score};
+					}
 				}
+				game.scores.sort(function(p1,p2) {
+					if(p1.score < p2.score) {
+						return 1;
+					} else if (p1.score > p2.score) {
+						return -1;
+					} else {
+						return 0;
+					}
+				});
 				game.save();
 				res.redirect('/secure/Random');
 			});
