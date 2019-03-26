@@ -185,10 +185,11 @@ app.get('/secure/SpaceGame', function(req, res){		//ne marche pas => trouve pas 
 //////////// game random N°1 ///////////////
 app.get('/secure/Random', function(req, res){
 	Game.findOne({name: "Random"}, (game) => {
+		console.log(game);
 		res.render('random', {
 			login: req.session.user.login,
 			playerscore: req.session.user.highscore_list.randomGame,
-			highscores: []/*game.scores.sort(function(p1,p2) {
+			highscores: game.scores.sort(function(p1,p2) {
 					if(p1.score < p2.score) {
 						return -1;
 					} else if (p1.score > p2.score) {
@@ -196,7 +197,7 @@ app.get('/secure/Random', function(req, res){
 					} else {
 						return 0;
 					}
-				}).slice(4);*/
+				}).slice(4)
 		});
 	});
 });
@@ -205,8 +206,17 @@ app.post('/secure/Random', function(req, res){
 	score = req.body.score;
 	if(req.session.user.highscore_list.randomGame < score) {
 		req.session.user.highscore_list.randomGame = score;
-		User.findOneAndUpdate({login: req.session.user.login}, req.session.user, function(user) {
-			res.redirect('/secure/Random');
+		User.findOne({login: req.session.user.login}, req.session.user, function(user) {
+			Game.findOne({name: "Random"}, (game) => {
+				let i = game.scores.findIndex((elt) => elt.Player === req.session.user.login);
+				if (i !== -1) {
+					game.scores[i] = {Player: req.session.user.login, score: score};
+				} else {
+					game.scores.push({Player: req.session.user.login, score: score});
+				}
+				game.save();
+				res.redirect('/secure/Random');
+			});
 		});
 	} else {
 		res.redirect('/secure/Random');
