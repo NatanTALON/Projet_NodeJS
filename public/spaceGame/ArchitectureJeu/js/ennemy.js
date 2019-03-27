@@ -45,14 +45,14 @@ function Enemy(x,y,speed,type){
     this.height = 30;
     this.width = 40;
     this.img = new Image();
-    this.img.src = "./assets/Enemy/Hue Shifted/eSpritesheet_40x30_hue1.png";
+    this.img.src = "/public/spaceGame/ArchitectureJeu/assets/Enemy/Hue Shifted/eSpritesheet_40x30_hue1.png";
     this.cpt = 0;
 
     this.cptExplosion =  0;//10 images
     this.imgExplosion = new Image();
     this.imgExplosionHeight = 128;
     this.imgExplosionWidth = 128;
-    this.imgExplosion.src = "./assets/Explosion/explosionSpritesheet_1280x128.png";
+    this.imgExplosion.src = "/public/spaceGame/ArchitectureJeu/assets/Explosion/explosionSpritesheet_1280x128.png";
 
     this.projectileSet = new ProjectileSet();
     this.explodes = function(){

@@ -129,7 +129,7 @@ app.post('/Subscription', function(req,res){
 	 				}
 				});
 			});
-			req.session.user = user;
+			req.session.user = new_user;
 			res.redirect('/secure/GameSelection');
 		}
 		else {
@@ -206,17 +206,8 @@ app.post('/secure/Random', function(req, res){
 					game.scores[i] = {Player: req.session.user.login, score: score};
 				} else if (game.scores.length < 5) {
 					game.scores.push({Player: req.session.user.login, score: score});
-				} else {
-					let j = 3;
-					while (j > 0 && game.scores[j].score < score) {
-						game.scores[j+1] = game.scores[j];
-						j -= 1;
-					}
-					if (j === 3 && game.scores[4] < score) {
-						game.scores[4] = {Player: req.session.user.login, score: score};
-					} else if (j < 3) {
-						game.score[j+1] = {Player: req.session.user.login, score: score};
-					}
+				} else if (game.scores[4].score < score) {
+					game.scores[4] = {Player: req.session.user.login, score: score};
 				}
 				game.scores.sort(function(p1,p2) {
 					if(p1.score < p2.score) {
@@ -227,8 +218,7 @@ app.post('/secure/Random', function(req, res){
 						return 0;
 					}
 				});
-				game.save();
-				res.redirect('/secure/Random');
+				game.save((err,product) => res.redirect('/secure/Random'));
 			});
 		});
 	} else {

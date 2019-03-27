@@ -5,7 +5,7 @@
     top:0px;
     border-style: solid;
     border-width: 2px;
-    background: url(../assets/Backgrounds/farback.gif);
+    background: url(http://localhost:3000/public/spaceGame/ArchitectureJeu/assets/Backgrounds/farback.gif);
     z-index: 1;
 }
 
